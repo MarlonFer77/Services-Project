@@ -1,0 +1,16 @@
+{
+  "funcionarios": [
+    {
+      "id": 1,
+      "nome": "Paulo",
+      "email": "paulo123@gmail.com",
+      "foto": ""
+    },
+    {
+      "nome": "Pedro",
+      "email": "pedro@gmail.com",
+      "foto": "",
+      "id": 2
+    }
+  ]
+}
