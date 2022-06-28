@@ -22,7 +22,16 @@ export class FuncionarioService {
     return this.http.delete<any>(`${this.baseUrl}/${id}`)
   }
 
-  getNewFunc(): Observable<Funcionarios[]> {
-    return this.http.get<Funcionarios[]>(this.baseUrl)
+  // http://localhost:3000/funcionarios/id
+  getFuncionarioBydId(id: number): Observable<Funcionarios>{
+    return this.http.get<any>(`${this.baseUrl}/${id}`)
+  }
+
+  salvarFuncionario(func: Funcionarios): Observable<Funcionarios> {
+    return this.http.post<Funcionarios>(this.baseUrl, func)
+  }
+
+  atualizarFuncionario(func: Funcionarios): Observable<Funcionarios> {
+    return this.http.put<Funcionarios>(`${this.baseUrl}/${func.id}`, func)
   }
 }

@@ -1,6 +1,11 @@
 {
     "cSpell.words": [
         "colunas",
-        "foto"
-    ]
+        "foto",
+        "funcionario",
+        "Funcionario",
+        "Funcionarios"
+    ],
+    "cSpell.language": "en,pt,pt-BR",
+    "compile-hero.disable-compile-files-on-did-save-code": true
 }
