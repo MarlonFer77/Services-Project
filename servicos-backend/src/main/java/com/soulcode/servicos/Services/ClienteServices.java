@@ -39,9 +39,9 @@ public class ClienteServices {
         clienteRepository.deleteById(idCliente);
     }
 
-    public void deletarClientePeloNome(String nomeCliente){
-        clienteRepository.deleteByNomeCliente(nomeCliente);
-    }
+//    public void deletarClientePeloNome(String nomeCliente){
+//        clienteRepository.deleteByNomeCliente(nomeCliente);
+//    }
 
     public void editarCliente(Cliente cliente){
         clienteRepository.save(cliente);

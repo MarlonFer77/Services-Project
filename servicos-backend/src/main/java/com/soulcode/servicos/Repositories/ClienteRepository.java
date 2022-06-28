@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     Optional<Cliente> findByEmailCliente(String emailCliente);
-    Optional<Cliente> deleteByNomeCliente(String nomeCliente);
+//    Optional<Cliente> deleteByNomeCliente(String nomeCliente);
 }
