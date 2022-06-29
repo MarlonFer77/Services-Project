@@ -1,10 +1,16 @@
-<mat-card>
-    <mat-card-header>
-        <img [src]="funcionario.foto" alt="" mat-card-avatar>
-        <mat-card-title> {{ funcionario.nome }} </mat-card-title>
-        <mat-card-subtitle> {{ funcionario.email }} </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        
-    </mat-card-content>
-</mat-card>
+<div class="loader" *ngIf="funcionario == undefined; else principal">
+    <p>Procurando Funcionário...</p>
+    <mat-spinner mode="indeterminate"></mat-spinner>
+</div>
+<ng-template #principal>
+    <mat-card>
+        <mat-card-header>
+            <img [src]="funcionario.foto" alt="" mat-card-avatar>
+            <mat-card-title> {{ funcionario.nome }} </mat-card-title>
+            <mat-card-subtitle> {{ funcionario.email }} </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            
+        </mat-card-content>
+    </mat-card>
+</ng-template>
