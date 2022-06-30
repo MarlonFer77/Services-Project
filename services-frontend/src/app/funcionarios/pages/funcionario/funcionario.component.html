@@ -10,7 +10,24 @@
             <mat-card-subtitle> {{ funcionario.email }} </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-            
+            <form action="" ngSubmit>
+                <mat-form-field>
+                    <mat-label>Nome</mat-label>
+                    <input 
+                    type="text" 
+                    matInput 
+                    value="{{ funcionario.nome }}"
+                    
+                    >
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input type="text" matInput value="{{ funcionario.email }}"
+                    
+                    >
+                </mat-form-field>
+                <button type="submit" mat-raised-button color="accent" id="salvar" (click)="editarFuncionario(funcionario)">Salvar</button>
+            </form>
         </mat-card-content>
     </mat-card>
 </ng-template>

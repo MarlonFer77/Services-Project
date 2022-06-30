@@ -1,7 +1,9 @@
 package com.soulcode.servicos.Services;
 
 
+import com.soulcode.servicos.Models.Cargo;
 import com.soulcode.servicos.Models.Funcionario;
+import com.soulcode.servicos.Repositories.CargoRepository;
 import com.soulcode.servicos.Repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ public class FuncionarioServices {
     // aqui se faz a injeção de dependência
     @Autowired
     FuncionarioRepository funcionarioRepository;
+    @Autowired
+    CargoRepository cargoRepository;
 
     //primeiro serviço na tabela de funcionário, vai ser a leitura de todos os funcionários cadastrados
     // findAll -> método do spring Data JPA -> busca todos os registros de uma tabela
@@ -61,4 +65,21 @@ public class FuncionarioServices {
 
         return funcionarioRepository.save(funcionario);
     }
+
+    public Funcionario atribuirCargo(Integer idCargo, Funcionario funcionario){
+
+        // Buscar o cargo
+        // setar o cargo ao funcionário
+        // salvar
+
+        Optional<Cargo> cargo = cargoRepository.findById(idCargo);
+        funcionario.setCargo(cargo.get());
+
+        return funcionarioRepository.save(funcionario);
+    }
+
+    public List<Funcionario> mostrarFuncionarioPeloCargo(Integer idCargo){
+        return funcionarioRepository.findByAllFuncionariosIdCargo(idCargo);
+    }
+
 }

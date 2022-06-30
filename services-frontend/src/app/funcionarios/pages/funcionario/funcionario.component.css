@@ -11,3 +11,24 @@ mat-card, .loader {
     justify-content: center;
     align-items: center;
 }
+
+mat-card-content {
+
+    margin-top: 80px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+button:hover {
+    color: white;
+    background-color: rgb(80, 199, 80);
+}

@@ -100,15 +100,7 @@ public class ChamadosController {
 
     // Vamos construir o mapeamento do método para modificar o status de um chamado
     @PutMapping("/chamadosModificarStatus/{idChamado}")
-    public ResponseEntity<Chamados> modificarStatus(@PathVariable Integer idChamado, @RequestParam("status") String status, Funcionario funcionario){
-
-
-        //if (funcionario == null){
-
-            //Chamados chamados = chamadosServices.modificarStatus(idChamado, status);
-            //chamados.setStatus(StatusChamado.RECEBIDO);
-            //return ResponseEntity.ok().build();
-        //}
+    public ResponseEntity<Chamados> modificarStatus(@PathVariable Integer idChamado, @RequestParam("status") String status){
         chamadosServices.modificarStatus(idChamado, status);
         return ResponseEntity.ok().build();
     }

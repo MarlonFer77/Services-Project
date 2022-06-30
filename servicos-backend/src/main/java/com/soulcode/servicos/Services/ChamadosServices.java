@@ -10,6 +10,7 @@ import com.soulcode.servicos.Repositories.ChamadosRepository;
 import com.soulcode.servicos.Repositories.ClienteRepository;
 import com.soulcode.servicos.Repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -106,19 +107,24 @@ public class ChamadosServices {
     // Método para modificar o status de um chamado
     public Chamados modificarStatus(Integer idChamado, String status) {
         Chamados chamados = chamadoId(idChamado);
+
+        if (chamados.getFuncionario() != null){
+            switch (status){
+                case "ATRIBUIDO": {
+                    chamados.setStatus(StatusChamado.ATRIBUIDO);
+                    break;
+                }
+                case "CONCLUIDO": {
+                    chamados.setStatus(StatusChamado.CONCLUIDO);
+                    break;
+                }
+                case "ARQUIVADO": {
+                    chamados.setStatus(StatusChamado.ARQUIVADO);
+                    break;
+                }
+            }
+        }
         switch (status) {
-            case "ATRIBUIDO": {
-                chamados.setStatus(StatusChamado.ATRIBUIDO);
-                break;
-            }
-            case "CONCLUIDO": {
-                chamados.setStatus(StatusChamado.CONCLUIDO);
-                break;
-            }
-            case "ARQUIVADO": {
-                chamados.setStatus(StatusChamado.ARQUIVADO);
-                break;
-            }
             case "RECEBIDO": {
                 chamados.setStatus(StatusChamado.RECEBIDO);
                 break;

@@ -78,4 +78,9 @@ export class FuncionarioService {
     
     return downloadURL
   }
+
+  // localhost:3000/id
+  editarFuncionario(funci: Funcionarios): Observable<any> {
+    return this.http.put(this.baseUrl, funci)
+  }
 }

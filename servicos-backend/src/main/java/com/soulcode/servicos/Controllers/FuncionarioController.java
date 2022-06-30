@@ -68,4 +68,21 @@ public class FuncionarioController {
         funcionarioServices.editarFuncionario(funcionario);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/funcionariosSetarCargo/{idFuncionario}")
+    public ResponseEntity<Funcionario> atribuirCargo(
+            @PathVariable Integer idFuncionario,
+            @RequestParam("idCargo") Integer idCargo,
+            @RequestBody Funcionario funcionario){
+        funcionario.setIdFuncionario(idFuncionario);
+
+        funcionarioServices.atribuirCargo(idCargo, funcionario);
+        return ResponseEntity.ok().body(funcionario);
+    }
+
+    @GetMapping("/funcionariosCargos/{idCargo}")
+    public List<Funcionario> mostrarFuncionarioPeloCargo(@PathVariable Integer idCargo){
+        List<Funcionario> funcionarios = funcionarioServices.mostrarFuncionarioPeloCargo(idCargo);
+        return funcionarios;
+    }
 }

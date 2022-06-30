@@ -27,6 +27,10 @@ public class Funcionario {
     @OneToMany(mappedBy = "funcionario")
     private List<Chamados> chamados = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "idCargo")
+    private Cargo cargo;
+
     public Integer getIdFuncionario() {
         return idFuncionario;
     }
@@ -65,5 +69,13 @@ public class Funcionario {
 
     public void setChamados(List<Chamados> chamados) {
         this.chamados = chamados;
+    }
+
+    public Cargo getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
     }
 }

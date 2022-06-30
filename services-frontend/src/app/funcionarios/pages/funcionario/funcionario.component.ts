@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Funcionarios } from '../../models/funcionarios';
 import { FuncionarioService } from '../../services/funcionario.service';
@@ -34,6 +35,15 @@ export class FuncionarioComponent implements OnInit {
       func => {
         this.funcionario = func
         console.log(this.funcionario);
+        
+      }
+    )
+  }
+
+  editarFuncionario(func: Funcionarios): any {
+    this.funcService.editarFuncionario(func).subscribe(
+      (funcs) => {
+        this.funcService.atualizarFuncionario(funcs)
         
       }
     )
