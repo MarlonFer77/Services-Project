@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Funcionarios } from '../models/funcionarios';
 import { AngularFireStorage } from "@angular/fire/compat/storage";// importação do firestorage
 
@@ -8,7 +8,7 @@ import { AngularFireStorage } from "@angular/fire/compat/storage";// importaçã
   providedIn: 'root'
 })
 export class FuncionarioService {
-
+  
   private readonly baseUrl: string = 'http://localhost:3000/funcionarios/'
 
   constructor(
@@ -29,8 +29,29 @@ export class FuncionarioService {
     return this.http.get<any>(`${this.baseUrl}/${id}`)
   }
 
-  salvarFuncionario(func: Funcionarios): Observable<Funcionarios> {
-    return this.http.post<Funcionarios>(this.baseUrl, func)
+  // RXJS operators: funções que manipulam os dados que os observables te retornam
+  salvarFuncionario(func: Funcionarios, foto: File): Observable<Promise<Observable<Funcionarios>>> {
+
+    // Fazendo requisição POST para salvar os dados do funcionário
+    // @return funcionário que acabou de ser salvo
+
+    // A função pipe para colocar os operadores do RXJS que manipularão
+    // os dados que são retornados dos observables 
+
+    // o pipe manipula cada dado que o observable te retorna
+    // transformando em algo diferente e te retorna esse dado modificado 
+    return this.http.post<Funcionarios>(this.baseUrl, func).pipe(
+      map(async (func) => {
+        // 1° Passo - fazer upload da imagem e recuperar o link gerado
+        const linkFotoFirebase = await this.uploadImagem(foto)
+        
+        // 2° Passo - atribuir o link gerado ao funcionário criado
+        func.foto = linkFotoFirebase
+
+        // 3° Passo - atualizar o funcionário com a foto
+        return this.atualizarFuncionario(func)
+      })
+    )
   }
 
   atualizarFuncionario(func: Funcionarios): Observable<Funcionarios> {
@@ -41,7 +62,7 @@ export class FuncionarioService {
   // 2° Fazer o upload da imagem
   // 3° Gerar o link de download e retorná-lo
 
-  async uploadImagem(foto: File): Promise<string> {
+  private async uploadImagem(foto: File): Promise<string> {
     // a palavra chave async informa que a função vai trabalhar com o código assíncrono, ou seja, códigos que demorar para serem executados 
 
     const nomeDoArquivo = Date.now() // retorna a data atual em milissegundos
