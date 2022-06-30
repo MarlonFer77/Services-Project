@@ -125,6 +125,24 @@
       "email": "usopp@gmail.com",
       "foto": "https://firebasestorage.googleapis.com/v0/b/soulcode-func.appspot.com/o/1656514990693?alt=media&token=850a36b0-22bf-47ae-9890-5255b7ddcb8d",
       "id": 26
+    },
+    {
+      "nome": "Naruto",
+      "email": "naruto@gmail.com",
+      "foto": "https://firebasestorage.googleapis.com/v0/b/soulcode-func.appspot.com/o/1656598619254?alt=media&token=6698e878-da73-43ed-87fb-f6caf8a01588",
+      "id": 27
+    },
+    {
+      "nome": "shippuen",
+      "email": "narutinho@gmail.com",
+      "foto": "https://firebasestorage.googleapis.com/v0/b/soulcode-func.appspot.com/o/1656598656941?alt=media&token=6cf44395-74dd-4981-8ce6-035b6c3d02f3",
+      "id": 28
+    },
+    {
+      "nome": "ASDGYUASD",
+      "email": "hafsgduas@gmail.com",
+      "foto": "https://firebasestorage.googleapis.com/v0/b/soulcode-func.appspot.com/o/1656598817743?alt=media&token=61af8fd9-7bd8-49ba-aecd-294c76239871",
+      "id": 29
     }
   ]
 }
