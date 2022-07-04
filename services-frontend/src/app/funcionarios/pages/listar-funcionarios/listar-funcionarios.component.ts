@@ -3,7 +3,9 @@ import {
   OnInit
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormFuncionarioComponent } from '../../components/form-funcionario/form-funcionario.component';
+import { ModalDeleteComponent } from '../../components/modal-delete/modal-delete.component';
 import {
   Funcionarios
 } from '../../models/funcionarios';
@@ -24,7 +26,8 @@ export class ListarFuncionariosComponent implements OnInit {
 
   constructor(
     private funcService: FuncionarioService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -32,18 +35,29 @@ export class ListarFuncionariosComponent implements OnInit {
   }
 
   deleteFunc(id: number): void {
-    const deletar = confirm("Realmente quer excluir o funcionário?")
-    if (deletar) {
-      this.funcService.deleteFuncionario(id).subscribe(
-        () => {
-          this.recuperarFuncionario()
-        },
-        (erro) => {
-          console.log(erro);
+    const dialogRef = this.dialog.open(ModalDeleteComponent)
+    dialogRef.afterClosed().subscribe(
+      value => {
+        if(value) {
+          value = this.funcService.deleteFuncionario(id).subscribe(
+            () => {
+              this.recuperarFuncionario()
+              this.snackbar.open('Funcionário Deletado', 'Ok', {
+                duration: 1000
+              })
+            },
+            (erro) => {
+              console.log(erro);
+            }
+          )
+        }else{
+          value = this.dialog.closeAll()
         }
-      )
-    } else {}
-  }
+      }
+    )
+      
+    } 
+  
 
   recuperarFuncionario(): void {
 

@@ -1,7 +1,8 @@
 <h2 mat-dialog-title>Novo Funcionário</h2>
+
 <section mat-dialog-content>
     <form action="" [formGroup]="formFuncionario" (ngSubmit)="salvar()">
-        <div id="imgDiv"><img id="image" [src]="fotoPreview" alt="" *ngIf="fotoPreview.length != 0"></div>
+        <div id="imgDiv"><img id="image" [src]="fotoPreview.length == 0? fotoBase : fotoPreview " alt=""></div>
         <mat-form-field appearance="fill">
             <mat-label>Nome</mat-label>
             <input 
@@ -9,6 +10,7 @@
             placeholder="Ex: João Pedro"
             matInput
             formControlName="nome"
+            #action
             >
         </mat-form-field>
         <mat-form-field appearance="fill">
@@ -18,6 +20,7 @@
             placeholder="Ex: seuemail@mail.com"
             matInput
             formControlName="email"
+            #message
             >
         </mat-form-field>
         <input
@@ -34,7 +37,7 @@
         color="accent"
         (click)="fileInput.click()"
         >Selecione uma imagem</button>
-
-        <button type="submit" [disabled]="formFuncionario.invalid" mat-raised-button color="accent" id="salvar">Salvar</button>
+        
+        <button type="submit" [disabled]="formFuncionario.invalid" mat-raised-button color="accent" id="salvar" (click)="openSnackBar(message.value, action.value)">Salvar</button>
     </form>
 </section>

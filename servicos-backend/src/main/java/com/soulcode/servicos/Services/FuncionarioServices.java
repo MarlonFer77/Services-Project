@@ -21,6 +21,7 @@ public class FuncionarioServices {
     @Autowired
     CargoRepository cargoRepository;
 
+
     //primeiro serviço na tabela de funcionário, vai ser a leitura de todos os funcionários cadastrados
     // findAll -> método do spring Data JPA -> busca todos os registros de uma tabela
 
@@ -45,9 +46,11 @@ public class FuncionarioServices {
 
     // vamos criar um servioço para cadastrar um novo funcionário
 
-    public Funcionario cadastrarFuncionario(Funcionario funcionario) {
+    public Funcionario cadastrarFuncionario(Funcionario funcionario, Integer idCargo) {
         // só por precaução, nós vamos colocar o id do funcionario como nulo
         funcionario.setIdFuncionario(null);
+        Optional<Cargo> cargo = cargoRepository.findById(idCargo);
+        funcionario.setCargo(cargo.get());
         return funcionarioRepository.save(funcionario);
     }
 
@@ -81,5 +84,6 @@ public class FuncionarioServices {
     public List<Funcionario> mostrarFuncionarioPeloCargo(Integer idCargo){
         return funcionarioRepository.findByAllFuncionariosIdCargo(idCargo);
     }
+
 
 }

@@ -31,6 +31,7 @@ public class Funcionario {
     @JoinColumn(name = "idCargo")
     private Cargo cargo;
 
+
     public Integer getIdFuncionario() {
         return idFuncionario;
     }
@@ -78,4 +79,5 @@ public class Funcionario {
     public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
+
 }

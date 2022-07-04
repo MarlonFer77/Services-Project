@@ -36,14 +36,14 @@ public class FuncionarioController {
         return  ResponseEntity.ok().body(funcionario);
     }
 
-    @PostMapping("/funcionarios") // Post -> Postar/Add
-    public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody Funcionario funcionario){
+    @PostMapping("/funcionarios/{idCargo}") // Post -> Postar/Add
+    public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody Funcionario funcionario, @PathVariable Integer idCargo){
 
         // nessa linha 42, o funcionário já é salvo na tabela do databse
         // agora precisamos criar uma url para esse novo registro da tabela
 
 
-        funcionario = funcionarioServices.cadastrarFuncionario(funcionario);
+        funcionario = funcionarioServices.cadastrarFuncionario(funcionario, idCargo);
         URI novaUri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("id")
                 .buildAndExpand(funcionario.getIdFuncionario())
@@ -73,7 +73,8 @@ public class FuncionarioController {
     public ResponseEntity<Funcionario> atribuirCargo(
             @PathVariable Integer idFuncionario,
             @RequestParam("idCargo") Integer idCargo,
-            @RequestBody Funcionario funcionario){
+            @RequestBody Funcionario funcionario
+    ){
         funcionario.setIdFuncionario(idFuncionario);
 
         funcionarioServices.atribuirCargo(idCargo, funcionario);
@@ -85,4 +86,5 @@ public class FuncionarioController {
         List<Funcionario> funcionarios = funcionarioServices.mostrarFuncionarioPeloCargo(idCargo);
         return funcionarios;
     }
+
 }

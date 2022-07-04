@@ -10,6 +10,10 @@ import java.util.List;
 @Entity
 public class Cliente {
 
+
+    @OneToOne
+    private Endereco endereco;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCliente;
@@ -54,5 +58,13 @@ public class Cliente {
 
     public void setChamados(List<Chamados> chamados) {
         this.chamados = chamados;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

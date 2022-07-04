@@ -3,6 +3,7 @@ package com.soulcode.servicos.Controllers;
 
 import ch.qos.logback.core.net.server.Client;
 import com.soulcode.servicos.Models.Cliente;
+import com.soulcode.servicos.Models.Funcionario;
 import com.soulcode.servicos.Services.ClienteServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -71,5 +72,18 @@ public class ClienteController {
         clienteServices.editarCliente(cliente);
         return ResponseEntity.ok()
                 .build();
+    }
+
+    @PutMapping("/clienteEndereco/{idCliente}")
+    public
+    ResponseEntity<Cliente> atribuirEndereco(
+            @PathVariable Integer idCliente,
+            @RequestParam("idEndereco") Integer idEndereco,
+            @RequestBody Cliente cliente
+    ){
+        cliente.setIdCliente(idCliente);
+
+        clienteServices.atribuirEndereco(idEndereco, cliente);
+        return ResponseEntity.ok().body(cliente);
     }
 }

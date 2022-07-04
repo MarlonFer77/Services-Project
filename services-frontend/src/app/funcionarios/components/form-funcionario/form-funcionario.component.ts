@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Funcionarios } from '../../models/funcionarios';
 import { ListarFuncionariosComponent } from '../../pages/listar-funcionarios/listar-funcionarios.component';
 import { FuncionarioService } from '../../services/funcionario.service';
@@ -19,11 +20,12 @@ export class FormFuncionarioComponent implements OnInit {
 
   foto!: File
   fotoPreview: string = ''
-
+  fotoBase: string = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
   constructor(
     private fb: FormBuilder,
     private funcService: FuncionarioService,
-    private dialogRef: MatDialogRef<FormFuncionarioComponent> // objeto que permite controlar o dialog aberto
+    private dialogRef: MatDialogRef<FormFuncionarioComponent>, // objeto que permite controlar o dialog aberto
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -62,7 +64,9 @@ export class FormFuncionarioComponent implements OnInit {
             // inscrevendo-se no observable que nos retornará o funcionário salvo no banco de dados
             obs$.subscribe(
               (func) => {
-                alert("Funcionário salvo com sucesso")
+                this.snackBar.open('Funcionário Enviado', 'Ok', {
+                  duration: 2000
+                });
                 this.dialogRef.close(func)
               }
             )
@@ -71,5 +75,11 @@ export class FormFuncionarioComponent implements OnInit {
       }
     )
        
+  }
+
+  openSnackBar(message: string, action: string) {
+    message = 'Enviando Funcionário'
+    action = '...'
+    this.snackBar.open(message, action);
   }
 }
