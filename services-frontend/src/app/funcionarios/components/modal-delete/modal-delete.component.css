@@ -1,0 +1,12 @@
+div {
+    text-align: center;
+}
+
+#false {
+    margin-left: 10px;
+}
+
+#true:hover {
+    background-color: red;
+    color: white;
+}
