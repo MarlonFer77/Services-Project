@@ -30,7 +30,7 @@ export class FuncionarioService {
   }
 
   // RXJS operators: funções que manipulam os dados que os observables te retornam
-  salvarFuncionario(func: Funcionarios, foto: File): /* foto?: */Observable<Promise<Observable<Funcionarios>>>{
+  salvarFuncionario(func: Funcionarios, foto?: File) /* foto?: // o "?" deixa o parâmetro opcional */{
 
     // Fazendo requisição POST para salvar os dados do funcionário
     // @return funcionário que acabou de ser salvo
@@ -40,9 +40,10 @@ export class FuncionarioService {
 
     // o pipe manipula cada dado que o observable te retorna
     // transformando em algo diferente e te retorna esse dado modificado
-  /*   if (foto != undefined) {
-      
-    } */
+
+    if (foto == undefined) { // se a foto não existe, será retornado um observable que apenas os salva os dados básico
+      return this.http.post<Funcionarios>(this.baseUrl, func)
+    } 
     return this.http.post<Funcionarios>(this.baseUrl, func).pipe(
       map(async (func) => {
         // 1° Passo - fazer upload da imagem e recuperar o link gerado
