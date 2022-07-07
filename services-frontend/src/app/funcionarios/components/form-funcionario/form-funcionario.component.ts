@@ -14,12 +14,15 @@ import { FuncionarioService } from '../../services/funcionario.service';
 })
 export class FormFuncionarioComponent implements OnInit {
 
+  spinner: boolean = false
+
   formFuncionario: FormGroup = this.fb.group({
     nome: ['', [ Validators.required ]],
     email: ['', [ Validators.required, Validators.email ]],
     foto: ['']
   })
 
+  
   foto!: File
   fotoPreview: string = ''
   fotoBase: string = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
@@ -96,5 +99,6 @@ export class FormFuncionarioComponent implements OnInit {
     message = 'Enviando Funcionário'
     action = '...'
     this.snackBar.open(message, action);
+    this.spinner = true
   }
 }

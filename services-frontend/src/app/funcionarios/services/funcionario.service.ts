@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, mergeMap, Observable, take } from 'rxjs';
 import { Funcionarios } from '../models/funcionarios';
 import { AngularFireStorage } from "@angular/fire/compat/storage";// importação do firestorage
 
@@ -9,7 +9,7 @@ import { AngularFireStorage } from "@angular/fire/compat/storage";// importaçã
 })
 export class FuncionarioService {
   
-  private readonly baseUrl: string = 'http://localhost:3000/funcionarios/'
+  private readonly baseUrl: string = 'http://localhost:3000/funcionarios'
 
   constructor(
     private http: HttpClient,
@@ -20,13 +20,28 @@ export class FuncionarioService {
     return this.http.get<Funcionarios[]>(this.baseUrl)
   }
 
-  deleteFuncionario(id: number): Observable<Funcionarios>{
-    return this.http.delete<any>(`${this.baseUrl}/${id}`)
+  deleteFuncionario(func: Funcionarios): Observable<any>{
+// se não tiver foto, apenas será deletado o email e nome
+
+    if (func.foto.length > 0) {
+      // 1° -> pegar a referência da imagem no fireStorage
+      // refFromURL() -> pega a referência do arquivo do storage pelo link de acesso gerado pelo firebase
+
+      return this.storage.refFromURL(func.foto).delete().pipe(
+        mergeMap(() => {
+          //mergeMap tem a função de pegar dois os mais observables e transformar todos em um só
+
+          return this.http.delete<any>(`${this.baseUrl}/${func.id}`)
+        })
+      )
+    }
+
+    return this.http.delete<any>(`${this.baseUrl}/${func.id}`)
   }
 
   // http://localhost:3000/funcionarios/id
   getFuncionarioBydId(id: number): Observable<Funcionarios>{
-    return this.http.get<any>(`${this.baseUrl}/${id}`)
+    return this.http.get<Funcionarios>(`${this.baseUrl}/${id}`)
   }
 
   // RXJS operators: funções que manipulam os dados que os observables te retornam
@@ -59,7 +74,7 @@ export class FuncionarioService {
     
   }
 
-  atualizarFuncionario(func: Funcionarios): Observable<Funcionarios> {
+  atualizarFuncionario(func: Funcionarios) {
     return this.http.put<Funcionarios>(`${this.baseUrl}/${func.id}`, func)
   }
   //-----------------------------------------//
@@ -82,10 +97,5 @@ export class FuncionarioService {
     const downloadURL = await dados.ref.getDownloadURL() // retorna um link pro acesso da imagem 
     
     return downloadURL
-  }
-
-  // localhost:3000/id
-  editarFuncionario(funci: Funcionarios): Observable<any> {
-    return this.http.put(this.baseUrl, funci)
   }
 }

@@ -34,12 +34,12 @@ export class ListarFuncionariosComponent implements OnInit {
     this.recuperarFuncionario()
   }
 
-  deleteFunc(id: number): void {
+  deleteFunc(func: Funcionarios): void {
     const dialogRef = this.dialog.open(ModalDeleteComponent)
     dialogRef.afterClosed().subscribe(
       value => {
         if(value) {
-          value = this.funcService.deleteFuncionario(id).subscribe(
+          value = this.funcService.deleteFuncionario(func).subscribe(
             () => {
               this.recuperarFuncionario()
               this.snackbar.open('Funcionário Deletado', 'Ok', {

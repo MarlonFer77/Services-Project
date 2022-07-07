@@ -74,16 +74,4 @@ public class ClienteController {
                 .build();
     }
 
-    @PutMapping("/clienteEndereco/{idCliente}")
-    public
-    ResponseEntity<Cliente> atribuirEndereco(
-            @PathVariable Integer idCliente,
-            @RequestParam("idEndereco") Integer idEndereco,
-            @RequestBody Cliente cliente
-    ){
-        cliente.setIdCliente(idCliente);
-
-        clienteServices.atribuirEndereco(idEndereco, cliente);
-        return ResponseEntity.ok().body(cliente);
-    }
 }

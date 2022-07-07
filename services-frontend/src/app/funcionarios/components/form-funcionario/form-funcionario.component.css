@@ -26,3 +26,8 @@ form {
 #imgDiv {
     text-align: center;
 }
+
+#dialogTop {
+    display: flex;
+    justify-content: space-between;
+}

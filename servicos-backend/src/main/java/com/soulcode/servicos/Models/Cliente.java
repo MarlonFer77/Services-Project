@@ -10,8 +10,8 @@ import java.util.List;
 @Entity
 public class Cliente {
 
-
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_endereco", unique = true)
     private Endereco endereco;
 
     @Id
@@ -67,4 +67,6 @@ public class Cliente {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
+
+
 }

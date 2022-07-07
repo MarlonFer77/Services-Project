@@ -32,6 +32,14 @@ public class Chamados {
     @JoinColumn(name = "idCliente")
     private Cliente cliente;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_pagamento")
+    private Pagamento pagamento;
+
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "id_pagamento", unique = true)
+//    private Pagamento pagamento;
+
     public Integer getIdChamado() {
         return idChamado;
     }
@@ -86,5 +94,13 @@ public class Chamados {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
     }
 }

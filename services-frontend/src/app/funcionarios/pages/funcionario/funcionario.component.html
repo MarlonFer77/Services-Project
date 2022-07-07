@@ -1,6 +1,8 @@
-<div class="loader" *ngIf="funcionario == undefined; else principal">
-    <p>Procurando Funcionário...</p>
-    <mat-spinner mode="indeterminate"></mat-spinner>
+<div *ngIf="spinner">
+    <div class="loader" *ngIf="funcionario == undefined; else principal">
+        <p>Procurando Funcionário...</p>
+        <mat-spinner mode="indeterminate"></mat-spinner>
+    </div>
 </div>
 <ng-template #principal>
     <mat-card>
@@ -8,9 +10,10 @@
             <img [src]="fotoPreview.length != 0? fotoPreview : fotoBase" alt="" mat-card-avatar>
             <mat-card-title> {{ funcionario.nome }} </mat-card-title>
             <mat-card-subtitle> {{ funcionario.email }} </mat-card-subtitle>
+            <button id="return" mat-icon-button routerLink="/funcionarios"><mat-icon>arrow_back</mat-icon></button>
         </mat-card-header>
         <section mat-dialog-content>
-            <form action="" [formGroup]="formFuncionario">
+            <form action="" [formGroup]="formFuncionario" (ngSubmit)="editarFuncionario()">
                 <div id="imgDiv"><img id="image" [src]="fotoPreview.length != 0? fotoPreview : fotoBase" alt=""></div>
                 <mat-form-field appearance="fill">
                     <mat-label>Nome</mat-label>

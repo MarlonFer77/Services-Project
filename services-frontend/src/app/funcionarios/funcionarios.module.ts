@@ -8,6 +8,9 @@ import { FuncionarioComponent } from './pages/funcionario/funcionario.component'
 import { FormFuncionarioComponent } from './components/form-funcionario/form-funcionario.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalDeleteComponent } from './components/modal-delete/modal-delete.component';
+import { ModalFuncionarioNaoEncontradoComponent } from './components/modal-funcionario-nao-encontrado/modal-funcionario-nao-encontrado.component';
+import { ModalRetornoSalvarComponent } from './components/modal-retorno-salvar/modal-retorno-salvar.component';
+
 
 
 @NgModule({
@@ -15,7 +18,9 @@ import { ModalDeleteComponent } from './components/modal-delete/modal-delete.com
     ListarFuncionariosComponent,
     FuncionarioComponent,
     FormFuncionarioComponent,
-    ModalDeleteComponent
+    ModalDeleteComponent,
+    ModalFuncionarioNaoEncontradoComponent,
+    ModalRetornoSalvarComponent
   ],
   imports: [
     CommonModule,

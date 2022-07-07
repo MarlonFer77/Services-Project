@@ -7,11 +7,7 @@ import javax.persistence.*;
 @Entity
 public class Endereco {
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "endereco")
-    private Cliente cliente;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idEndereco;
 
     @Column(nullable = false)

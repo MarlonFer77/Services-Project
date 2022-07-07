@@ -1,9 +1,7 @@
 package com.soulcode.servicos.Services;
 
-import ch.qos.logback.core.net.server.Client;
 import com.soulcode.servicos.Models.Cliente;
 import com.soulcode.servicos.Models.Endereco;
-import com.soulcode.servicos.Models.Funcionario;
 import com.soulcode.servicos.Repositories.ClienteRepository;
 import com.soulcode.servicos.Repositories.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +51,5 @@ public class ClienteServices {
         clienteRepository.save(cliente);
     }
 
-    public Cliente atribuirEndereco(Integer idEndereco, Cliente cliente){
 
-        Optional<Endereco> endereco = enderecoRepository.findById(idEndereco);
-        cliente.setEndereco(endereco.get());
-
-        return clienteRepository.save(cliente);
-    }
 }

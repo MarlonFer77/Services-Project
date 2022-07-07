@@ -1,4 +1,7 @@
-<h2 mat-dialog-title>Novo Funcionário</h2>
+<div id="dialogTop">
+    <h2 mat-dialog-title>Novo Funcionário</h2>
+    <mat-spinner mode="indeterminate" color="accent" diameter="20" *ngIf="spinner"></mat-spinner>
+</div>
 
 <section mat-dialog-content>
     <form action="" [formGroup]="formFuncionario" (ngSubmit)="salvar()">

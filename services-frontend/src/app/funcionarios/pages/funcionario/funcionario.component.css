@@ -54,3 +54,11 @@ form {
 #imgDiv {
     text-align: center;
 }
+
+mat-card-header button {
+    margin-left: 40%;
+}
+
+#return:hover {
+    background-color: gray;
+}

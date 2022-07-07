@@ -1,5 +1,6 @@
 package com.soulcode.servicos.Controllers;
 
+import com.soulcode.servicos.Models.Cliente;
 import com.soulcode.servicos.Models.Endereco;
 import com.soulcode.servicos.Services.EnderecoServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,25 @@ public class EnderecoController {
         return enderecos;
     }
 
-    @PostMapping("/enderecos")
-    public ResponseEntity<Endereco> cadastrarEndereco(@RequestBody Endereco endereco){
+    @GetMapping("/enderecos/{idEndereco}")
+    public ResponseEntity<Endereco> buscarEnderecosPeloId(@PathVariable Integer idEndereco){
+        Endereco endereco = enderecoServices.buscarEnderecosPeloId(idEndereco);
+        return ResponseEntity.ok().body(endereco);
+    }
 
-        endereco = enderecoServices.cadastrarEndereco(endereco);
-        URI novaUri = ServletUriComponentsBuilder.fromCurrentRequest().path("id")
-                .buildAndExpand(endereco.getIdEndereco()).toUri();
-        return ResponseEntity.created(novaUri).body(endereco);
+    @PostMapping("/enderecos/{idCliente}")
+    public ResponseEntity<Endereco> cadastrarEndereco(
+            @RequestBody Endereco endereco,
+            @PathVariable Integer idCliente){
+
+        try{
+            endereco = enderecoServices.cadastrarEndereco(endereco, idCliente);
+            URI novaUri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(endereco.getIdEndereco()).toUri();
+            return ResponseEntity.created(novaUri).body(endereco);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/enderecos/{idEndereco}")
@@ -43,6 +56,6 @@ public class EnderecoController {
     public ResponseEntity<Endereco> editarEndereco (@PathVariable Integer idEndereco, @RequestBody Endereco endereco){
         endereco.setIdEndereco(idEndereco);
         enderecoServices.editarEndereco(endereco);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(endereco);
     }
 }
