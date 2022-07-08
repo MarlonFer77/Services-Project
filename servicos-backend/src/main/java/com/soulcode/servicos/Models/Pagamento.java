@@ -1,5 +1,7 @@
 package com.soulcode.servicos.Models;
 
+import org.springframework.format.annotation.NumberFormat;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,6 +10,7 @@ public class Pagamento {
     @Id
     private Integer idPagamento;
 
+    @NumberFormat(pattern = "#.##0,00")
     @Column(nullable = false)
     private double valor;
 

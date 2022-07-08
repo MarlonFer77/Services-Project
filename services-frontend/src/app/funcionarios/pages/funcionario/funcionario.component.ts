@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ModalDeleteComponent } from '../../components/modal-delete/modal-delete.component';
 import { ModalFuncionarioNaoEncontradoComponent } from '../../components/modal-funcionario-nao-encontrado/modal-funcionario-nao-encontrado.component';
 import { Funcionarios } from '../../models/funcionarios';
@@ -110,18 +111,32 @@ export class FuncionarioComponent implements OnInit {
 
   editarFuncionario(): void {
     this.desabilitar = true
-    const f = this.formFuncionario.value
+    const f = { ...this.formFuncionario.value }
     f.id = this.funcionario.id
     f.foto = this.funcionario.foto
-    this.funcService.atualizarFuncionario(f).subscribe(
-      sucesso => {
-        console.log("Teste");
-          this.snackbar.open('Funcionario Atualizado', 'OK', {
-            duration: 2000
-          })
-      },
-      erro => {
-        console.log(erro); 
+    const temFoto = this.formFuncionario.value.foto.length > 0
+
+    const obsSalvar: Observable<any> = this.funcService.atualizarFuncionario(f, temFoto? this.foto : undefined)
+
+    obsSalvar.subscribe(
+      (resultado) => {
+        if (resultado instanceof Observable<Funcionarios>) {
+          resultado.subscribe(
+            (func) => {
+              
+              this.snackbar.open('Funcionario Atualizado', 'OK', {
+                duration: 2000
+              })
+
+              this.recuperarFuncionario(func.id)
+            }
+          )
+        }
+        this.snackbar.open('Funcionario Atualizado', 'OK', {
+          duration: 2000
+        })
+
+        this.recuperarFuncionario(resultado.id)
       }
     )
   }

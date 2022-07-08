@@ -36,10 +36,6 @@ public class Chamados {
     @JoinColumn(name = "id_pagamento")
     private Pagamento pagamento;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "id_pagamento", unique = true)
-//    private Pagamento pagamento;
-
     public Integer getIdChamado() {
         return idChamado;
     }

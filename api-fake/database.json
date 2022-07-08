@@ -3,20 +3,14 @@
     {
       "nome": "Naruto",
       "email": "naruto@gmail.com",
-      "foto": "https://firebasestorage.googleapis.com/v0/b/soulcode-func.appspot.com/o/1657125708483?alt=media&token=8abb1f1c-de18-46b3-87f3-13a84b935224",
+      "foto": "https://firebasestorage.googleapis.com/v0/b/soulcode-func.appspot.com/o/1657291768738?alt=media&token=96974c38-d0b6-431b-bfc8-0e6d8dd283d7",
       "id": 1
     },
     {
-      "nome": "Rroronoa Zoroo",
-      "email": "zoro12s3@gmail.com",
-      "foto": "https://firebasestorage.googleapis.com/v0/b/soulcode-func.appspot.com/o/1657125723336?alt=media&token=4e093d31-0b55-4800-8f08-7e7e78e1f8bc",
+      "nome": "Roronoa Zoroo",
+      "email": "zoro123@gmail.com",
+      "foto": "https://firebasestorage.googleapis.com/v0/b/soulcode-func.appspot.com/o/1657292526381?alt=media&token=ff04594f-1338-40e1-b555-696144d01119",
       "id": 2
-    },
-    {
-      "nome": "Nico Robin",
-      "email": "nicorobin@gmail.com",
-      "foto": "https://firebasestorage.googleapis.com/v0/b/soulcode-func.appspot.com/o/1657125743693?alt=media&token=9eff7c54-0c3d-43dd-92fa-20f49b422125",
-      "id": 3
     }
   ]
 }

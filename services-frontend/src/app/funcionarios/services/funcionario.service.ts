@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, mergeMap, Observable, take } from 'rxjs';
+import { map, mergeMap, Observable } from 'rxjs';
 import { Funcionarios } from '../models/funcionarios';
 import { AngularFireStorage } from "@angular/fire/compat/storage";// importação do firestorage
+import { async } from '@firebase/util';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,7 @@ export class FuncionarioService {
 
   // http://localhost:3000/funcionarios/id
   getFuncionarioBydId(id: number): Observable<Funcionarios>{
+    
     return this.http.get<Funcionarios>(`${this.baseUrl}/${id}`)
   }
 
@@ -74,8 +76,32 @@ export class FuncionarioService {
     
   }
 
-  atualizarFuncionario(func: Funcionarios) {
-    return this.http.put<Funcionarios>(`${this.baseUrl}/${func.id}`, func)
+  atualizarFuncionario(func: Funcionarios, foto?: File): any {
+
+    // se a foto não foi passada, atualizar com apenas os dados básicos
+    if (foto == undefined) {
+      return this.http.put<Funcionarios>(`${this.baseUrl}/${func.id}`, func)
+    }
+
+    // se já existir uma foto ligada a esse funcionário, iremos  deletá-la para pôr a nova
+    if (func.foto.length > 0) {
+      const inscricao =  this.storage.refFromURL(func.foto).delete().subscribe(
+        () => {
+          inscricao.unsubscribe()
+        }
+      )
+    }
+
+    return this.http.put<Funcionarios>(`${this.baseUrl}/${func.id}`, func).pipe(
+      mergeMap(async (funcionarioAtualizado) => {
+        const linkFotoFirebase = await this.uploadImagem(foto)
+
+        funcionarioAtualizado.foto = linkFotoFirebase
+        return this.atualizarFuncionario(funcionarioAtualizado)
+      }) 
+
+      
+    )
   }
   //-----------------------------------------//
   // 1° Pegar a imagem

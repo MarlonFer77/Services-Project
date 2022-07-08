@@ -34,6 +34,7 @@ public class PagamentoServices {
 
         if (chamados.isPresent()){
             pagamento.setIdPagamento(idChamado);
+            pagamento.setStatusPagamento(StatusPagamento.LANCADO);
             pagamentoRepository.save(pagamento);
 
             chamados.get().setPagamento(pagamento); // busca o chamado e seta o pagamento nele
@@ -45,21 +46,33 @@ public class PagamentoServices {
 
     }
 
-    public Pagamento modificarStatus(Integer idPagamento, String statusPagamento){
+    public Pagamento modificarStatus(Integer idPagamento, String statusPagamento) {
         Pagamento pagamento = buscarPagamentoPeloId(idPagamento);
 
-        switch (statusPagamento){
+        switch (statusPagamento) {
 
             case "QUITADO": {
                 pagamento.setStatusPagamento(StatusPagamento.QUITADO);
                 break;
             }
-        }
+            case "LANCADO": {
+                pagamento.setStatusPagamento(StatusPagamento.LANCADO);
+                break;
 
+            }
+        }
         return pagamentoRepository.save(pagamento);
     }
-
     public Pagamento editarPagamento(Pagamento pagamento){
         return pagamentoRepository.save(pagamento);
     }
+
+    public List<Pagamento> buscarPagamentosPeloStatus(String statusPagamento){
+        return pagamentoRepository.findByStatusPagamento(statusPagamento);
+    }
+
+    public List<List> orcamentoComServicoCliente() {
+        return pagamentoRepository.orcamentoComServicoCliente();
+    }
+
 }

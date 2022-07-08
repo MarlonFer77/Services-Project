@@ -55,4 +55,14 @@ public class PagamentoController {
         pagamentoServices.editarPagamento(pagamento);
         return ResponseEntity.ok().body(pagamento);
     }
+    @GetMapping("/pagamentosPeloStatus")
+    public List<Pagamento> buscarPagamentosPeloStatus(@RequestParam("statusPagamento") String statusPagamento){
+        List<Pagamento> pagamentos = pagamentoServices.buscarPagamentosPeloStatus(statusPagamento);
+        return pagamentos;
+    }
+
+    @GetMapping("/pagamentosChamadosComCliente")
+    public List<List> orcamentoComServicoCliente(){
+        return pagamentoServices.orcamentoComServicoCliente();
+    }
 }
