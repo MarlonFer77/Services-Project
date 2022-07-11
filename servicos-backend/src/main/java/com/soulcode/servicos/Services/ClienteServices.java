@@ -4,6 +4,7 @@ import com.soulcode.servicos.Models.Cliente;
 import com.soulcode.servicos.Models.Endereco;
 import com.soulcode.servicos.Repositories.ClienteRepository;
 import com.soulcode.servicos.Repositories.EnderecoRepository;
+import com.soulcode.servicos.Services.Exceptions.EntityNoteFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,9 @@ public class ClienteServices {
 
     public Cliente exibirIdCliente(Integer idCliente){
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
-        return cliente.orElseThrow();
+        return cliente.orElseThrow(
+                () -> new EntityNoteFoundException("Cliente não encontrado: " + idCliente)
+        );
     }
 
     public Cliente exibirEmailCliente(String emailCliente){

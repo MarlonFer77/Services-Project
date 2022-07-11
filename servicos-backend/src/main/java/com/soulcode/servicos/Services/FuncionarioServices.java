@@ -5,6 +5,8 @@ import com.soulcode.servicos.Models.Cargo;
 import com.soulcode.servicos.Models.Funcionario;
 import com.soulcode.servicos.Repositories.CargoRepository;
 import com.soulcode.servicos.Repositories.FuncionarioRepository;
+import com.soulcode.servicos.Services.Exceptions.DataIntegrityViolationException;
+import com.soulcode.servicos.Services.Exceptions.EntityNoteFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +36,9 @@ public class FuncionarioServices {
 
     public Funcionario mostrarUmFuncionarioPeloId(Integer idFuncionario) {
         Optional<Funcionario> funcionario = funcionarioRepository.findById(idFuncionario);
-        return funcionario.orElseThrow();
+        return funcionario.orElseThrow(
+                () -> new EntityNoteFoundException("Funcionário não encontrado: " + idFuncionario)
+        );
     }
 
     // vamos criar mais um serviço para buscar um funcionário pelo seu email
@@ -48,10 +52,13 @@ public class FuncionarioServices {
 
     public Funcionario cadastrarFuncionario(Funcionario funcionario, Integer idCargo) {
         // só por precaução, nós vamos colocar o id do funcionario como nulo
-        funcionario.setIdFuncionario(null);
-        Optional<Cargo> cargo = cargoRepository.findById(idCargo);
-        funcionario.setCargo(cargo.get());
-        return funcionarioRepository.save(funcionario);
+        try {
+            Cargo cargo = cargoRepository.findById(idCargo).get();
+            funcionario.setCargo(cargo);
+            return funcionarioRepository.save(funcionario);
+        }catch (Exception e){
+            throw new DataIntegrityViolationException("Erro ao cadastrar funcionário");
+        }
     }
 
     public void excluirFuncionario(Integer idFuncionario){

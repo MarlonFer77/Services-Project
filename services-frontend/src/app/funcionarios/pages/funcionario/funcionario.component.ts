@@ -29,6 +29,7 @@ export class FuncionarioComponent implements OnInit {
   funcionario!: Funcionarios
   desabilitar: boolean = true
   spinner: boolean = true
+  canLeave: boolean = true
 
 
 
@@ -37,7 +38,8 @@ export class FuncionarioComponent implements OnInit {
     private funcService: FuncionarioService,
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -53,10 +55,12 @@ export class FuncionarioComponent implements OnInit {
   }
 
   recuperarFuncionario(id: number): void {
+    console.log('AA');
+    console.log(id);
+    
     this.funcService.getFuncionarioBydId(id).subscribe(
-      func => {
+      (func) => {
         this.funcionario = func
-        console.log(this.funcionario);
         this.formFuncionario.setValue({nome: this.funcionario.nome, email: this.funcionario.email, foto: ''})
 
         this.fotoPreview = func.foto
@@ -111,10 +115,38 @@ export class FuncionarioComponent implements OnInit {
 
   editarFuncionario(): void {
     this.desabilitar = true
+    this.canLeave = false
     const f = { ...this.formFuncionario.value }
     f.id = this.funcionario.id
     f.foto = this.funcionario.foto
-    const temFoto = this.formFuncionario.value.foto.length > 0
+
+    if (this.foto) {
+      this.funcService.atualizarFuncionario(f, this.foto).subscribe(
+        (value: any) => {
+          value.subscribe(
+            (func: any) => {
+              this.recuperarFuncionario(func.id)
+              this.snackbar.open('Funcionários Atualizado', 'Ok', {
+                duration: 2000
+              })
+            } 
+          )
+        }
+      )
+      
+    }else {
+      this.funcService.atualizarFuncionario(f).subscribe(
+        (value: any) => {
+          this.recuperarFuncionario(value.id)
+          this.snackbar.open('Funcionários Atualizado', 'Ok', {
+            duration: 2000
+          })
+        }
+      )
+    }
+    //this.router.navigateByUrl('/funcionarios')
+    
+    /* const temFoto = this.formFuncionario.value.foto.length > 0
 
     const obsSalvar: Observable<any> = this.funcService.atualizarFuncionario(f, temFoto? this.foto : undefined)
 
@@ -138,7 +170,7 @@ export class FuncionarioComponent implements OnInit {
 
         this.recuperarFuncionario(resultado.id)
       }
-    )
+    )*/
   }
-
+ 
 }
