@@ -31,7 +31,13 @@ export class ListarFuncionariosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.recuperarFuncionario()
+    this.funcService.atualizarFuncionariosSub$.subscribe(
+      (precisaAtualizar) => {
+        if (precisaAtualizar) {
+          this.recuperarFuncionario() 
+        }
+      }
+    )
   }
 
   deleteFunc(func: Funcionarios): void {
