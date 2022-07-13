@@ -23,6 +23,7 @@ export class FuncionarioComponent implements OnInit {
     foto: ['']
   })
 
+  funcionariosArray: Funcionarios[] = []
   fotoBase: string = '/assets/avatar.webp'
   foto!: File
   fotoPreview: string = ''
@@ -44,7 +45,7 @@ export class FuncionarioComponent implements OnInit {
 
   ngOnInit(): void {
     // let idFuncionario = this.route.snapshot.paramMap.get('idFuncionario')
-    
+
     this.route.paramMap.subscribe(
       (params) => {
         let idFuncionario = parseInt(params.get('idFuncionario') ?? '0' )
@@ -173,4 +174,27 @@ export class FuncionarioComponent implements OnInit {
     )*/
   }
  
+  deleteFunc(func: Funcionarios): void {
+    const dialogRef = this.dialog.open(ModalDeleteComponent)
+    dialogRef.afterClosed().subscribe(
+      value => {
+        if(value) {
+          value = this.funcService.deleteFuncionario(func).subscribe(
+            () => {
+              this.snackbar.open('Funcionário Deletado', 'Ok', {
+                duration: 1000
+              })
+              this.router.navigateByUrl('/funcionarios')
+            },
+            (erro) => {
+              console.log(erro);
+            }
+          )
+        }else{
+          value = this.dialog.closeAll()
+        }
+      }
+    )
+      
+  } 
 }

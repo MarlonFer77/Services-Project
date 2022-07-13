@@ -10,7 +10,11 @@
             <img [src]="fotoPreview.length != 0? fotoPreview : fotoBase" alt="" mat-card-avatar>
             <mat-card-title> {{ funcionario.nome }} </mat-card-title>
             <mat-card-subtitle> {{ funcionario.email }} </mat-card-subtitle>
-            <button id="return" mat-icon-button routerLink="/funcionarios"><mat-icon>arrow_back</mat-icon></button>
+            <button mat-icon-button [matMenuTriggerFor]="settingsMenu"><mat-icon>more_vert</mat-icon></button>
+            <mat-menu #settingsMenu="matMenu">
+                <menu mat-menu-item routerLink="/funcionarios"><mat-icon>arrow_back</mat-icon> <span>Voltar</span></menu>
+                <menu mat-menu-item (click)="deleteFunc(funcionario)"><mat-icon>delete</mat-icon><span>Deletar</span></menu>
+            </mat-menu>
         </mat-card-header>
         <section mat-dialog-content>
             <form action="" [formGroup]="formFuncionario" (ngSubmit)="editarFuncionario()">

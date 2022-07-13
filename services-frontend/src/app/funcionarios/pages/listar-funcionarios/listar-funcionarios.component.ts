@@ -1,17 +1,10 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormFuncionarioComponent } from '../../components/form-funcionario/form-funcionario.component';
 import { ModalDeleteComponent } from '../../components/modal-delete/modal-delete.component';
-import {
-  Funcionarios
-} from '../../models/funcionarios';
-import {
-  FuncionarioService
-} from '../../services/funcionario.service';
+import { Funcionarios } from '../../models/funcionarios';
+import { FuncionarioService } from '../../services/funcionario.service';
 
 @Component({
   selector: 'app-listar-funcionarios',
@@ -33,7 +26,7 @@ export class ListarFuncionariosComponent implements OnInit {
   ngOnInit(): void {
     this.funcService.atualizarFuncionariosSub$.subscribe(
       (precisaAtualizar) => {
-        if (precisaAtualizar) {
+        if (precisaAtualizar == true) {
           this.recuperarFuncionario() 
         }
       }

@@ -56,9 +56,13 @@ form {
 }
 
 mat-card-header button {
-    margin-left: 40%;
+    margin-left: auto;
 }
 
 #return:hover {
     background-color: gray;
+}
+
+menu {
+    width: 200px;
 }

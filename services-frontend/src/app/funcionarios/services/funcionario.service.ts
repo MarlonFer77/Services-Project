@@ -34,11 +34,17 @@ export class FuncionarioService {
           //mergeMap tem a função de pegar dois os mais observables e transformar todos em um só
 
           return this.http.delete<any>(`${this.baseUrl}/${func.id}`)
-        })
-      )
+        }), 
+          tap((funcionario) => {
+            this.atualizarFuncionariosSub$.next(true)
+          })
+        )
     }
-
-    return this.http.delete<any>(`${this.baseUrl}/${func.id}`)
+    return this.http.delete<any>(`${this.baseUrl}/${func.id}`).pipe(
+      tap((funcionario) => {
+        this.atualizarFuncionariosSub$.next(true)
+      })
+    )
   }
 
   // http://localhost:3000/funcionarios/id
