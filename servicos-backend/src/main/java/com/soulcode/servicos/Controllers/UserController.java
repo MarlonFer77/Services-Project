@@ -27,8 +27,8 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<User> cadastrarUser(@RequestBody User user) {
-        String senhaCodificada = passwordEncoder.encode(user.getSenha());
-        user.setSenha(senhaCodificada);
+        String senhaCodificada = passwordEncoder.encode(user.getPassword());
+        user.setPassword(senhaCodificada);
 
         user = userServices.cadastrarUser(user);
         return ResponseEntity.ok().body(user);

@@ -10,10 +10,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String login;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String senha;
+    private String password;
 
     public Integer getIdUser() {
         return idUser;
@@ -31,11 +31,11 @@ public class User {
         this.login = login;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

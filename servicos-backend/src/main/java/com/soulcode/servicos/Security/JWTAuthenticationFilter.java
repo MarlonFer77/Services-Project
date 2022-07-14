@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -33,7 +34,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             user.getLogin(),
-                            user.getSenha(),
+                            user.getPassword(),
                             new ArrayList<>())
             );
         }catch (IOException e) {
@@ -56,13 +57,33 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.getWriter().flush();
 
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        response.setStatus(401);
+        response.setContentType("application/json");
+        response.getWriter().write(json());
+        response.getWriter().flush();
+    }
+
+    String json() {
+        long date = new Date().getTime();
+        return "{"
+                + "\"timestamp\": " + date + ", "
+                + "\"status\": 401,"
+                + "\"error\" : \"Não autorizado\", "
+                + "\"message\": \"Email/senha inválidos\","
+                + "\"path\": \"/login\""
+                + "}";
+
+    }
 }
 
-/**
- * FRONT MANDA {"login": "jr@gmail.com", "password": "12345"}
- * A partir do JSON -> User
- * Tenta realizar autenticação
- *      Caso dê certo:
- *          - Gera o token JWT
- *          - Retorna o token para o FRONT
- */
+
+//  FRONT MANDA {"login": "jr@gmail.com", "password": "12345"}
+//  A partir do JSON -> User
+//  Tenta realizar autenticação
+//       Caso dê certo:
+//          - Gera o token JWT
+//           - Retorna o token para o FRONT
+

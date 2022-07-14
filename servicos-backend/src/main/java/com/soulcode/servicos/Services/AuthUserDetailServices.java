@@ -15,7 +15,7 @@ import java.util.Optional;
 public class AuthUserDetailServices implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -25,7 +25,8 @@ public class AuthUserDetailServices implements UserDetailsService {
             throw new UsernameNotFoundException("Usuário não encontrado");
         }
 
-        return new AuthUserDetail(user.get().getLogin(), user.get().getSenha());
+        return new AuthUserDetail(user.get().getLogin(), user.get().getPassword());
+
     }
 }
 
