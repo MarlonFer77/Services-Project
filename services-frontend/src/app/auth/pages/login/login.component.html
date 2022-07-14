@@ -1,0 +1,25 @@
+<!-- criar form pra login.. email, senha, login ,botão -->
+<section>
+    <div>
+        <iframe src="https://embed.lottiefiles.com/animation/111690"></iframe>
+    </div>
+    <form [formGroup]="loginForm">
+        <mat-card-title>Log in</mat-card-title>
+        <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input type="text" matInput placeholder="Digite seu email" formControlName="login">
+            <mat-error>
+                <span>Este campo é obrigatório</span>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="Digite sua senha" formControlName="password">
+            <mat-error>
+                <span>Este campo é obrigatório</span>
+            </mat-error>
+        </mat-form-field>
+
+        <button type="button" mat-raised-button [disabled]="loginForm.invalid">Entrar</button>
+    </form>
+</section>
