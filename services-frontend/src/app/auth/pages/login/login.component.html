@@ -3,7 +3,7 @@
     <div>
         <iframe src="https://embed.lottiefiles.com/animation/111690"></iframe>
     </div>
-    <form [formGroup]="loginForm">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
         <mat-card-title>Log in</mat-card-title>
         <mat-form-field appearance="fill">
             <mat-label>Username</mat-label>
@@ -20,6 +20,6 @@
             </mat-error>
         </mat-form-field>
 
-        <button type="button" mat-raised-button [disabled]="loginForm.invalid">Entrar</button>
+        <button type="submit" mat-raised-button [disabled]="loginForm.invalid">Entrar</button>
     </form>
 </section>
