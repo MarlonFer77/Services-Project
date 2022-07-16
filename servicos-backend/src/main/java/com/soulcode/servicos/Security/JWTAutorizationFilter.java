@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// ele entra em ação em todos endpoints que estão protegidos
 public class JWTAutorizationFilter extends BasicAuthenticationFilter {
 
     private JWTUtils jwtUtils;
@@ -24,13 +25,14 @@ public class JWTAutorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("Authorization"); // "Bearer asjdhasjkdas213123"
 
         if (token != null && token.startsWith("Bearer")) { // token "válido"
             // concluir autorização
             UsernamePasswordAuthenticationToken authToken = getAuthentication(token.substring(7));
             if (authToken != null) {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                // SecurityContextHolder.getContext().getAuthentication();
                 // Guarda informações do usuário autenticado no contexto do Spring
                 // Essa informação pode ser utilizada dentro dos controllers da aplicação
             }
@@ -39,7 +41,7 @@ public class JWTAutorizationFilter extends BasicAuthenticationFilter {
     }
 
     public UsernamePasswordAuthenticationToken getAuthentication(String token) {
-        String login = jwtUtils.getLogin(token);
+        String login = jwtUtils.getLogin(token); // extrai o login do subject
         if (login == null) {
             return null;
         }

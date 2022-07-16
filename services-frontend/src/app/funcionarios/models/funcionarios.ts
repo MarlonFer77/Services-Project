@@ -1,5 +1,5 @@
 export interface Funcionarios {
-    id?: number
+    idFuncionario?: number
     nome: string
     email: string
     foto: string

@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+// Agrega todas as informações de segurança http e gerência do user
 @EnableWebSecurity
 public class JWTConfig extends WebSecurityConfigurerAdapter {
 
@@ -31,33 +32,39 @@ public class JWTConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // AuthUserDetailServices -> carregar o usuário do banco
+        // BCrypt -> garador de hash de senhas
+        // usa passwordEncoder() para comparar senhas de login
         auth.userDetailsService(authUserDetailServices).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // habilita o cors e desabilita o csrf
         http.cors().and().csrf().disable();
+        // JWTAuthenticationFilter -> é chamado quando usa o /login
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtils));
         http.addFilter(new JWTAutorizationFilter(authenticationManager(), jwtUtils));
 
-        http.authorizeRequests()
+        http.authorizeRequests() // autoriza as requisições
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
-                // .antMatchers(HttpMethod.GET, "/servicos/**").permitAll() // libera GET para /servicos/cargos
+                // .antMatchers(HttpMethod.GET, "/servicos/**").permitAll() // deixa alguns métodos públicos
                 .anyRequest().authenticated();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-    @Bean
+    @Bean // CROSS ORIGIN RESOURCE SHARING
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+        CorsConfiguration configuration = new CorsConfiguration(); // configurações padrões
         configuration.setAllowedMethods(List.of(
                 HttpMethod.GET.name(),
                 HttpMethod.PUT.name(),
                 HttpMethod.POST.name(),
                 HttpMethod.DELETE.name()
-        ));
+        )); // métodos permitidos para o front acessar
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // endpoints permitidos para o front acessar
         source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues());
         return source;
     }

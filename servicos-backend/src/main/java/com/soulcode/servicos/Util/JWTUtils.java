@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-public class JWTUtils {
+public class JWTUtils { // gerenciar e gerar token
 
     @Value("${jwt.secret}")
     private String secret;
@@ -19,13 +19,16 @@ public class JWTUtils {
 
     public String generateToken(String email) {
         return JWT.create()
-                .withSubject(email)
+                .withSubject(email) // email do usuário
                 .withExpiresAt(
                     new Date(System.currentTimeMillis() + expiration)
                 ).sign(Algorithm.HMAC512(secret));
     }
 
     public String getLogin(String token) {
-        return JWT.require(Algorithm.HMAC512(secret)).build().verify(token).getSubject();
+        return JWT.require(Algorithm.HMAC512(secret))
+                .build()
+                .verify(token)
+                .getSubject();
     }
 }

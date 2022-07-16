@@ -6,6 +6,9 @@ import com.soulcode.servicos.Repositories.ClienteRepository;
 import com.soulcode.servicos.Repositories.EnderecoRepository;
 import com.soulcode.servicos.Services.Exceptions.EntityNoteFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +23,12 @@ public class ClienteServices {
     @Autowired
     EnderecoRepository enderecoRepository;
 
+    @Cacheable("clientesCache")
     public List<Cliente> exibirCliente(){
-        return clienteRepository.findAll();
+        return clienteRepository.findAll(); // só chamo o return se o cache expirar clientesCache:: []
     }
 
+    @Cacheable(value = "clientesCache", key = "#idCliente") // clientesCache:: 1
     public Cliente exibirIdCliente(Integer idCliente){
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
         return cliente.orElseThrow(
@@ -42,6 +47,7 @@ public class ClienteServices {
         return clienteRepository.save(cliente);
     }
 
+    @CacheEvict(value = "clientesCache", key = "#idCliente", allEntries = true)
     public void deletarClientePeloId(Integer idCliente){
         clienteRepository.deleteById(idCliente);
     }
@@ -50,8 +56,10 @@ public class ClienteServices {
 //        clienteRepository.deleteByNomeCliente(nomeCliente);
 //    }
 
-    public void editarCliente(Cliente cliente){
-        clienteRepository.save(cliente);
+    @CachePut(value = "clientesCache", key = "#cliente.idCliente") // SPEL
+    public Cliente editarCliente(Cliente cliente){
+        exibirIdCliente(cliente.getIdCliente());
+        return clienteRepository.save(cliente);
     }
 
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { FormFuncionarioComponent } from '../../components/form-funcionario/form-funcionario.component';
 import { ModalDeleteComponent } from '../../components/modal-delete/modal-delete.component';
 import { Funcionarios } from '../../models/funcionarios';
@@ -20,7 +21,8 @@ export class ListarFuncionariosComponent implements OnInit {
   constructor(
     private funcService: FuncionarioService,
     private dialog: MatDialog,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {

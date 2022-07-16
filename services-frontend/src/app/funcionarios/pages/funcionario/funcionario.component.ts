@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ModalDeleteComponent } from '../../components/modal-delete/modal-delete.component';
 import { ModalFuncionarioNaoEncontradoComponent } from '../../components/modal-funcionario-nao-encontrado/modal-funcionario-nao-encontrado.component';
 import { Funcionarios } from '../../models/funcionarios';
@@ -56,9 +55,6 @@ export class FuncionarioComponent implements OnInit {
   }
 
   recuperarFuncionario(id: number): void {
-    console.log('AA');
-    console.log(id);
-    
     this.funcService.getFuncionarioBydId(id).subscribe(
       (func) => {
         this.funcionario = func
@@ -118,7 +114,7 @@ export class FuncionarioComponent implements OnInit {
     this.desabilitar = true
     this.canLeave = false
     const f = { ...this.formFuncionario.value }
-    f.id = this.funcionario.id
+    f.idFuncionario = this.funcionario.idFuncionario
     f.foto = this.funcionario.foto
 
     if (this.foto) {

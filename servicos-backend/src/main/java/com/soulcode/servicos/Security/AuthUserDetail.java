@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
+// Abstrai o user do banco para que o security conheça seus dados
 public class AuthUserDetail implements UserDetails {
 
     private String login;
@@ -32,22 +34,22 @@ public class AuthUserDetail implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() {
+    public boolean isAccountNonExpired() { //  a conta não expirou
         return true;
     }
 
     @Override
-    public boolean isAccountNonLocked() {
+    public boolean isAccountNonLocked() { // a conta não bloqueou
         return true;
     }
 
     @Override
-    public boolean isCredentialsNonExpired() {
+    public boolean isCredentialsNonExpired() { // as credenciais não expiraram
         return true;
     }
 
     @Override
-    public boolean isEnabled() {
+    public boolean isEnabled() { // o usuário está habilitado
         return true;
     }
 }
