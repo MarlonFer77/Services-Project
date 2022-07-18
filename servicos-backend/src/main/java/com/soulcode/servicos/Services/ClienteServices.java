@@ -20,9 +20,6 @@ public class ClienteServices {
     @Autowired
     ClienteRepository clienteRepository;
 
-    @Autowired
-    EnderecoRepository enderecoRepository;
-
     @Cacheable("clientesCache")
     public List<Cliente> exibirCliente(){
         return clienteRepository.findAll(); // só chamo o return se o cache expirar clientesCache:: []
@@ -36,12 +33,13 @@ public class ClienteServices {
         );
     }
 
-    public Cliente exibirEmailCliente(String emailCliente){
-        Optional<Cliente> cliente = clienteRepository.findByEmailCliente(emailCliente);
+//    public Cliente exibirEmailCliente(String emailCliente){
+//        Optional<Cliente> cliente = clienteRepository.findByEmailCliente(emailCliente);
+//
+//        return cliente.orElseThrow();
+//    }
 
-        return cliente.orElseThrow();
-    }
-
+    @CachePut(value = "clientesChache", key = "#cliente.idCliente")
     public Cliente cadastrarCliente(Cliente cliente){
         cliente.setIdCliente(null);
         return clienteRepository.save(cliente);

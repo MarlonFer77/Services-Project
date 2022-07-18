@@ -34,12 +34,12 @@ public class ClienteController {
                 .body(cliente);
     }
 
-    @GetMapping("/clienteEmail/{emailCliente}")
-    public ResponseEntity<Cliente> exibirEmailCliente(@PathVariable String emailCliente) {
-        Cliente cliente = clienteServices.exibirEmailCliente(emailCliente);
-        return ResponseEntity.ok()
-                .body(cliente);
-    }
+//    @GetMapping("/clienteEmail/{emailCliente}")
+//    public ResponseEntity<Cliente> exibirEmailCliente(@PathVariable String emailCliente) {
+//        Cliente cliente = clienteServices.exibirEmailCliente(emailCliente);
+//        return ResponseEntity.ok()
+//                .body(cliente);
+//    }
 
     @PostMapping("/cliente")
     public ResponseEntity<Cliente> cadastrarCliente(@RequestBody Cliente cliente) {

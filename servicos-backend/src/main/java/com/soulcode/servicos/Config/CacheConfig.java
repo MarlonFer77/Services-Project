@@ -15,7 +15,7 @@ public class CacheConfig {
             RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer());
 
     @Bean
-    public RedisCacheConfiguration cacheConfiguration() {
+    public RedisCacheConfiguration cacheConfiguration() { // customizar a config padrão do redis cache
         return RedisCacheConfiguration
                 .defaultCacheConfig() // customizar os dados padrão do cache
                 .entryTtl(Duration.ofMinutes(5)) // todos os caches terão 5 min por padrão

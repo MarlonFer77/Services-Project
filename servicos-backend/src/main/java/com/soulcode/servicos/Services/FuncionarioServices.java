@@ -7,7 +7,11 @@ import com.soulcode.servicos.Repositories.CargoRepository;
 import com.soulcode.servicos.Repositories.FuncionarioRepository;
 import com.soulcode.servicos.Services.Exceptions.DataIntegrityViolationException;
 import com.soulcode.servicos.Services.Exceptions.EntityNoteFoundException;
+import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +31,7 @@ public class FuncionarioServices {
     //primeiro serviço na tabela de funcionário, vai ser a leitura de todos os funcionários cadastrados
     // findAll -> método do spring Data JPA -> busca todos os registros de uma tabela
 
+    @Cacheable("funcCache")
     public List<Funcionario> mostrarTodosFuncionarios() {
         return funcionarioRepository.findAll();
     }
@@ -34,6 +39,7 @@ public class FuncionarioServices {
     // vamos criar mais um serviço relacionado ao funcionário
     // criar um serviço de buscar apenas um funcionário pelo seu id(chave primária)
 
+    @Cacheable(value = "funcCache", key = "#idFuncionario")
     public Funcionario mostrarUmFuncionarioPeloId(Integer idFuncionario) {
         Optional<Funcionario> funcionario = funcionarioRepository.findById(idFuncionario);
         return funcionario.orElseThrow(
@@ -43,6 +49,7 @@ public class FuncionarioServices {
 
     // vamos criar mais um serviço para buscar um funcionário pelo seu email
 
+
     public Funcionario mostrarUmFuncionarioPeloEmail(String emailFuncionario) {
         Optional<Funcionario> funcionario = funcionarioRepository.findByEmail(emailFuncionario);
         return funcionario.orElseThrow();
@@ -50,6 +57,7 @@ public class FuncionarioServices {
 
     // vamos criar um servioço para cadastrar um novo funcionário
 
+    @CachePut(value = "funcCache", key = "#funcionario.idFuncionario")
     public Funcionario cadastrarFuncionario(Funcionario funcionario, Integer idCargo) {
         // só por precaução, nós vamos colocar o id do funcionario como nulo
         try {
@@ -61,14 +69,17 @@ public class FuncionarioServices {
         }
     }
 
+    @CacheEvict(value = "funcCache", key = "#idFuncionario")
     public void excluirFuncionario(Integer idFuncionario){
         funcionarioRepository.deleteById(idFuncionario);
     }
 
+    @CachePut(value = "funcCache", key = "#funcionario.idFuncionario")
     public Funcionario editarFuncionario(Funcionario funcionario){
         return funcionarioRepository.save(funcionario);
     }
 
+    @CachePut(value = "funcCache", key = "#idFuncionario")
     public  Funcionario salvarFoto(Integer idFuncionario, String caminhoFoto){
         Funcionario funcionario = mostrarUmFuncionarioPeloId(idFuncionario);
         funcionario.setFoto(caminhoFoto);
@@ -76,6 +87,7 @@ public class FuncionarioServices {
         return funcionarioRepository.save(funcionario);
     }
 
+    @CachePut(value = "funcCache", key = "#funcionario.idFuncionario")
     public Funcionario atribuirCargo(Integer idCargo, Funcionario funcionario){
 
         // Buscar o cargo
@@ -88,6 +100,7 @@ public class FuncionarioServices {
         return funcionarioRepository.save(funcionario);
     }
 
+    @Cacheable(value = "funcCache", key = "#idCargo")
     public List<Funcionario> mostrarFuncionarioPeloCargo(Integer idCargo){
         return funcionarioRepository.findByAllFuncionariosIdCargo(idCargo);
     }
