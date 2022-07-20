@@ -5,6 +5,9 @@ import com.soulcode.servicos.Models.Endereco;
 import com.soulcode.servicos.Repositories.ClienteRepository;
 import com.soulcode.servicos.Repositories.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,10 +22,12 @@ public class EnderecoServices {
     @Autowired
     ClienteRepository clienteRepository;
 
+    @Cacheable("enderecoCache")
     public List<Endereco> buscarTodosEnderecos(){
         return enderecoRepository.findAll();
     }
 
+    @Cacheable(value = "enderecoCache", key = "#idEndereco")
     public Endereco buscarEnderecosPeloId(Integer idEndereco){
         Optional<Endereco> endereco = enderecoRepository.findById(idEndereco);
         return endereco.orElseThrow();
@@ -32,6 +37,7 @@ public class EnderecoServices {
     //        2 -> no momento do cadastro do endereço, precisamos passar o id do cliente que é o dono desse endereço
     //        3 -> o id do endereço vai ser o mesmo id do cliente
     //        4 -> não permitir que um endereço seja salvo sem a existência do respectivo cliente
+    @CachePut(value = "enderecoCache", key = "#idCliente")
     public Endereco cadastrarEndereco(Endereco endereco, Integer idCliente) throws Exception {
         // estamos declarando um optional de cliente e atribuindo para este os dados do cliente que receberá o
         // novo endereço
@@ -47,10 +53,8 @@ public class EnderecoServices {
             throw new Exception();
         }
     }
-    public void deletarEndereco(Integer idEndereco){
-    enderecoRepository.deleteById(idEndereco);
-    }
 
+    @CachePut(value = "enderecoCache", key = "#endereco.idEndereco")
     public Endereco editarEndereco(Endereco endereco){
     return enderecoRepository.save(endereco);
     }

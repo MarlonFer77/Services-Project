@@ -69,7 +69,7 @@ public class FuncionarioServices {
         }
     }
 
-    @CacheEvict(value = "funcCache", key = "#idFuncionario")
+    @CacheEvict(value = "funcCache", key = "#idFuncionario", allEntries = true)
     public void excluirFuncionario(Integer idFuncionario){
         funcionarioRepository.deleteById(idFuncionario);
     }

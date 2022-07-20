@@ -46,12 +46,6 @@ public class EnderecoController {
         }
     }
 
-    @DeleteMapping("/enderecos/{idEndereco}")
-    public ResponseEntity<Void> deletarEndereco(@PathVariable Integer idEndereco){
-        enderecoServices.deletarEndereco(idEndereco);
-        return ResponseEntity.noContent().build();
-    }
-
     @PutMapping("/enderecos/{idEndereco}")
     public ResponseEntity<Endereco> editarEndereco (@PathVariable Integer idEndereco, @RequestBody Endereco endereco){
         endereco.setIdEndereco(idEndereco);

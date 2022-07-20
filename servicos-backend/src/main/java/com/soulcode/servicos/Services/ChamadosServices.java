@@ -59,7 +59,7 @@ public class ChamadosServices {
         return chamadosRepository.findByStatus(status);
     }
 
-    @Cacheable(value = "chamadosCache", key = "#data1")
+    @Cacheable(value = "chamadosCache")
     public List<Chamados> buscarPorIntervaloData(Date data1, Date data2) {
         return chamadosRepository.findByIntervaloData(data1, data2);
     }
@@ -81,7 +81,7 @@ public class ChamadosServices {
     }
 
     // Método para exclusão de um chamado
-    @CacheEvict(value = "chamadosCache", key = "#idChamado")
+    @CacheEvict(value = "chamadosCache", key = "#idChamado", allEntries = true)
     public void excluirChamado(Integer idChamado) {
         chamadosRepository.deleteById(idChamado);
     }
