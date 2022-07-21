@@ -1,9 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, mergeMap, Observable, take, tap } from 'rxjs';
 import { Funcionarios } from '../models/funcionarios';
 import { AngularFireStorage } from "@angular/fire/compat/storage";// importação do firestorage
-import { async } from '@firebase/util';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Injectable({
@@ -21,16 +20,10 @@ export class FuncionarioService {
   ) { }
 
   getFuncionario(): Observable<Funcionarios[]> {
-    const token = this.authService.recuperarToken()
-    return this.http.get<Funcionarios[]>(this.baseUrl, {
-      headers: { 
-        Authorization: `Bearer ${token}`
-       }
-    })
+    return this.http.get<Funcionarios[]>(this.baseUrl)
   }
 
   deleteFuncionario(func: Funcionarios): Observable<any>{
-    const token = this.authService.recuperarToken()
 // se não tiver foto, apenas será deletado o email e nome
 
     if (func.foto.length > 0) {
@@ -41,22 +34,14 @@ export class FuncionarioService {
         mergeMap(() => {
           //mergeMap tem a função de pegar dois os mais observables e transformar todos em um só
 
-          return this.http.delete<any>(`${this.baseUrl}/${func.idFuncionario}`, {
-            headers: { 
-              Authorization: `Bearer ${token}`
-             }
-          })
+          return this.http.delete<any>(`${this.baseUrl}/${func.idFuncionario}`)
         }), 
           tap(() => {
             this.atualizarFuncionariosSub$.next(true)
           })
         )
     }
-    return this.http.delete<any>(`${this.baseUrl}/${func.idFuncionario}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).pipe(
+    return this.http.delete<any>(`${this.baseUrl}/${func.idFuncionario}`).pipe(
       tap(() => {
         this.atualizarFuncionariosSub$.next(true)
       })
@@ -65,17 +50,11 @@ export class FuncionarioService {
 
   // http://localhost:3000/funcionarios/id
   getFuncionarioBydId(id: number): Observable<Funcionarios>{
-    const token = this.authService.recuperarToken()
-    return this.http.get<Funcionarios>(`${this.baseUrl}/${id}`, {
-      headers: { 
-        Authorization: `Bearer ${token}`
-       }
-    })
+    return this.http.get<Funcionarios>(`${this.baseUrl}/${id}`)
   }
 
   // RXJS operators: funções que manipulam os dados que os observables te retornam
   salvarFuncionario(func: Funcionarios, foto?: File) /* foto?: // o "?" deixa o parâmetro opcional */{
-    const token = this.authService.recuperarToken()
     // Fazendo requisição POST para salvar os dados do funcionário
     // @return funcionário que acabou de ser salvo
 
@@ -87,17 +66,9 @@ export class FuncionarioService {
 
     if (foto == undefined) { // se a foto não existe, será retornado um observable que apenas os salva os dados básico
       
-      return this.http.post<Funcionarios>(this.baseUrl, func, {
-        headers: { 
-          Authorization: `Bearer ${token}`
-         }
-      })
+      return this.http.post<Funcionarios>(this.baseUrl, func)
     } 
-    return this.http.post<Funcionarios>(this.baseUrl, func, {
-      headers: { 
-        Authorization: `Bearer ${token}`
-       }
-    }).pipe(
+    return this.http.post<Funcionarios>(this.baseUrl, func).pipe(
       map(async (func) => {
         // 1° Passo - fazer upload da imagem e recuperar o link gerado
         const linkFotoFirebase = await this.uploadImagem(foto)
